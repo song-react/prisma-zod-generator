@@ -1,0 +1,33 @@
+{
+  "name": "prisma-zod-generator",
+  "version": "0.1.0",
+  "description": "Prisma generator that emits Zod schemas.",
+  "type": "commonjs",
+  "main": "lib/generator.js",
+  "types": "lib/generator.d.ts",
+  "bin": {
+    "prisma-zod-generator": "lib/generator.js"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "bun build lib/generator.js --target=node --format=cjs --minify --no-bundle --outfile lib/generator.min.js && mv lib/generator.min.js lib/generator.js && bun -e \"const fs=require('fs');const p='lib/generator.js';const s=fs.readFileSync(p,'utf8');if(!s.startsWith('#!')) fs.writeFileSync(p,'#!/usr/bin/env node\\\\n'+s);\"",
+    "clean": "rm -rf lib",
+    "prepare": "bun run build"
+  },
+  "dependencies": {
+    "@prisma/generator-helper": ">=6.19.0"
+  },
+  "peerDependencies": {
+    "@prisma/client": ">=6.19.0",
+    "prisma": ">=6.19.0",
+    "zod": ">=4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
